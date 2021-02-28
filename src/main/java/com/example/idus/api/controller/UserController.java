@@ -1,9 +1,9 @@
 package com.example.idus.api.controller;
 
-import com.example.idus.api.dto.ApiReqVO;
-import com.example.idus.api.dto.ApiResVO;
-import com.example.idus.api.dto.OrderVO;
-import com.example.idus.api.dto.UserVO;
+import com.example.idus.api.dto.req.UserReqVO;
+import com.example.idus.api.dto.res.UserResVO;
+import com.example.idus.api.dto.OrderDTO;
+import com.example.idus.api.dto.UserDTO;
 import com.example.idus.api.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,8 +27,8 @@ public class UserController {
     @GetMapping ("/getCustomerInfo")
     public ResponseEntity<?> test(@ApiParam(value="회원 이름") @RequestParam(value="name") String name,
                                       @ApiParam(value="회원 이메일") @RequestParam(value="email") String email){
-        UserVO res = userService.getCustomerInfo(new ApiReqVO(name, email, 1));
-        return new ResponseEntity<UserVO>(res, HttpStatus.OK);
+        UserDTO res = userService.getCustomerInfo(new UserReqVO(name, email, 1));
+        return new ResponseEntity<UserDTO>(res, HttpStatus.OK);
     }
 
     @ApiOperation(value="단일 회원 주문 목록 조회 , 여러 회원 목록 조회")
@@ -36,8 +36,8 @@ public class UserController {
     public ResponseEntity<?> test(@ApiParam(value="회원 이름") @RequestParam(value="name", defaultValue = "") String name,
                                       @ApiParam(value="회원 이메일") @RequestParam(value="email", defaultValue = "") String email,
                                       @ApiParam(value="페이지네이션") @RequestParam(value="perPageNum", defaultValue = "10") int perPageNum){
-        List<OrderVO> orderList = userService.getOrderList(new ApiReqVO(name, email, perPageNum));
-        ApiResVO res = new ApiResVO();
+        List<OrderDTO> orderList = userService.getOrderList(new UserReqVO(name, email, perPageNum));
+        UserResVO res = new UserResVO();
         res.ApiResVO(orderList);
         return ResponseEntity.ok(res);
     }

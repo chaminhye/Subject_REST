@@ -11,7 +11,7 @@
         </if>
     </sql>
 
-    <select id="selectCustomerInfo" parameterType="ApiReqVO" resultType="UserVO">
+    <select id="selectCustomerInfo" parameterType="UserReqVO" resultType="UserDTO">
         SELECT CUSTOMER_IDX as idx,
                CUSTOMER_NAME as name,
                CUSTOMER_PHONE_NUMBER as phoneNumber,
@@ -23,7 +23,7 @@
         <include refid ="selectCustomerCondition"/>
     </select>
 
-    <select id="selectOrderList" parameterType="ApiReqVO" resultType="OrderVO">
+    <select id="selectOrderList" parameterType="UserReqVO" resultType="OrderDTO">
         SELECT c.CUSTOMER_NAME as orderName,
         o.ORDER_IDX as orderIdx,
         o.ORDER_PRODUCT_NAME as productName,
@@ -38,4 +38,5 @@
         ORDER BY o.ORDER_DATE DESC
         LIMIT 0, #{perPageNum}
     </select>
+
 </mapper>
