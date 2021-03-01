@@ -45,17 +45,16 @@ public class JwtTokenUtil {
      *      @expiration : Token 만료시간 ( miliseconds 기준, JWT_TOKEN_VALIDITY =5 60 60 = 5시간
      *      @signWith : 비밀키(알고리즘)
      * */
-    public String generateToken(String username, List<String> roles) {
+    public String generateToken(String username, String roles) {
         Claims claims = Jwts.claims();
         claims.put("roles", roles);
 
-        String jwt = Jwts.builder()
+        return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))      // 토큰 발행일자
                 .setExpiration(new Date(System.currentTimeMillis() + TOKEN_VALIDATION_SECOND))      // 토근 만료일자
                 .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
-        return jwt;
     }
 
     // Jwt 토큰으로 인증 정보를 조회
@@ -69,9 +68,9 @@ public class JwtTokenUtil {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
     }
 
-    // Request의 Header에서 token 파싱 : "X-AUTH-TOKEN: jwt토큰"
+    // Request의 Header에서 token 파싱 : "AUTH-TOKEN: jwt토큰"
     public String resolveToken(HttpServletRequest req) {
-        return req.getHeader("X-AUTH-TOKEN");
+        return req.getHeader("AUTH-TOKEN");
     }
 
     // Jwt 토큰의 유효성 + 만료일자 확인

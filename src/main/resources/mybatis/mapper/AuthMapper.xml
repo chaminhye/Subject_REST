@@ -3,16 +3,38 @@
 <mapper namespace="com.example.idus.api.mapper.AuthMapper">
 
     <select id="selectByUserName" resultType="UserDTO" parameterType="String">
-        SELECT CUSTOMER_EMAIL
-             , CUSTOMER_PWD
+        SELECT CUSTOMER_EMAIL as email
+             , CUSTOMER_PWD as password
         FROM CUSTOMER
         WHERE CUSTOMER_EMAIL = #{email}
     </select>
 
-    <select id="selectByEmail" resultType="UserDTO" parameterType="String">
-        SELECT CUSTOMER_EMAIL
-             , CUSTOMER_PWD
+    <select id="selectByEmail" resultType="UserDTO" parameterType="AuthReqVO">
+        SELECT CUSTOMER_PWD as password
+             , CUSTOMER_ROLE as roles
+             , CUSTOMER_IDX as idx
           FROM CUSTOMER
          WHERE CUSTOMER_EMAIL = #{email}
     </select>
+
+    <insert id="insertUser" parameterType="UserDTO">
+        INSERT
+          INTO CUSTOMER (
+               CUSTOMER_NAME,
+               CUSTOMER_NICK_NAME,
+               CUSTOMER_PHONE_NUMBER,
+               CUSTOMER_PWD,
+               CUSTOMER_EMAIL,
+               CUSTOMER_GENDER,
+               CUSTOMER_ROLE
+             ) VALUES (
+               #{name},
+               #{nickName},
+               #{phoneNumber},
+               #{password},
+               #{email},
+               #{gender},
+               'ROLE_USER')
+    </insert>
+
 </mapper>
