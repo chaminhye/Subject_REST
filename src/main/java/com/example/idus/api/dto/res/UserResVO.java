@@ -12,7 +12,7 @@ import java.util.List;
 public class UserResVO extends Paging {
     private List<OrderDTO> orderList;
 
-    public void ApiResVO(List<OrderDTO> list){
+    public void UserResVO(List<OrderDTO> list){
         this.orderList = list;
     }
 }
