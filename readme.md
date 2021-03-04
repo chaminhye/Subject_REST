@@ -40,4 +40,4 @@ spring boot를 이용한 api 프로젝트
 
 ### 🔷 Swagger-ui
 
-http://localhost:8080/swagger-ui.html
+${서버주소}/swagger-ui.html
