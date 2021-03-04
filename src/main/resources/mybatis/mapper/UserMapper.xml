@@ -3,15 +3,15 @@
 <mapper namespace="com.example.idus.api.mapper.UserMapper">
 
     <sql id="selectCustomerCondition">
-        <if test="name!=null and !name.equals('')">
-            AND CUSTOMER_NAME = #{name}
-        </if>
-        <if test="email!=null and !name.equals('')">
+        <if test="email != null and !email.equals('')">
             AND CUSTOMER_EMAIL = #{email}
+        </if>
+        <if test="name != null and !name.equals('')">
+            AND CUSTOMER_NAME = #{name}
         </if>
     </sql>
 
-    <select id="selectCustomerInfo" parameterType="UserReqVO" resultType="UserDTO">
+    <select id="selectCustomerInfo" parameterType="UserReqVO" resultType="UserInfoVO">
         SELECT CUSTOMER_IDX as idx,
                CUSTOMER_NAME as name,
                CUSTOMER_PHONE_NUMBER as phoneNumber,
@@ -23,16 +23,30 @@
         <include refid ="selectCustomerCondition"/>
     </select>
 
+    <select id="selectOrder" parameterType="UserReqVO" resultType="OrderDTO">
+        SELECT c.CUSTOMER_NAME as orderName,
+               o.ORDER_IDX as orderIdx,
+               o.ORDER_PRODUCT_NAME as productName,
+               o.ORDER_DATE as orderDate,
+               o.ORDER_CUSTOMER_IDX as orderCustomerIdx
+           FROM CUSTOMER_ORDERS o
+           LEFT JOIN CUSTOMER c
+             ON o.ORDER_CUSTOMER_IDX = c.CUSTOMER_IDX
+          WHERE 1=1
+        <include refid ="selectCustomerCondition"/>
+          ORDER BY o.ORDER_DATE DESC
+    </select>
+
     <select id="selectOrderList" parameterType="UserReqVO" resultType="OrderDTO">
         SELECT c.CUSTOMER_NAME as orderName,
-        o.ORDER_IDX as orderIdx,
-        o.ORDER_PRODUCT_NAME as productName,
-        o.ORDER_DATE as orderDate,
-        o.ORDER_CUSTOMER_IDX as orderCustomerIdx
-        FROM CUSTOMER_ORDERS o
-        LEFT JOIN CUSTOMER c
-        ON o.ORDER_CUSTOMER_IDX = c.CUSTOMER_IDX
-        WHERE 1=1
+               o.ORDER_IDX as orderIdx,
+               o.ORDER_PRODUCT_NAME as productName,
+               o.ORDER_DATE as orderDate,
+               o.ORDER_CUSTOMER_IDX as orderCustomerIdx
+          FROM CUSTOMER_ORDERS o
+          LEFT JOIN CUSTOMER c
+            ON o.ORDER_CUSTOMER_IDX = c.CUSTOMER_IDX
+         WHERE 1=1
         <include refid ="selectCustomerCondition"/>
         GROUP BY o.ORDER_CUSTOMER_IDX
         ORDER BY o.ORDER_DATE DESC

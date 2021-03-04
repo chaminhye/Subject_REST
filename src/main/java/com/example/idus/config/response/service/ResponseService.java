@@ -1,36 +1,39 @@
 package com.example.idus.config.response.service;
 
-import com.example.idus.api.dto.res.UserResVO;
 import com.example.idus.config.response.vo.CommonResult;
 import com.example.idus.config.response.vo.ListResult;
 import com.example.idus.config.response.vo.SingleResult;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
 public class ResponseService {
+    Date now = new Date();
+/*
     // enum으로 api 요청 결과에 대한 code, message를 정의합니다.
     public enum CommonResponse {
-        SUCCESS(0, "성공하였습니다.");
+        SUCCESS(200, "성공하였습니다."),
+        FAIL(500, "실패하였습니다.");
 
-        int code;
-        String msg;
+        int status;
+        String message;
 
-        CommonResponse(int code, String msg) {
-            this.code = code;
-            this.msg = msg;
+        CommonResponse(int status, String message) {
+            this.status = status;
+            this.message = message;
         }
 
-        public int getCode() {
-            return code;
+        public int getStatus() {
+            return status;
         }
 
-        public String getMsg() {
-            return msg;
+        public String getMessage() {
+            return message;
         }
 
-    }
+    }*/
     // 단일건 결과를 처리하는 메소드
     public <T> SingleResult<T> getSingleResult(T data) {
         SingleResult<T> result = new SingleResult<>();
@@ -52,17 +55,20 @@ public class ResponseService {
         return result;
     }
     // 실패 결과만 처리하는 메소드
-    public CommonResult getFailResult(int code, String msg) {
+    public CommonResult getFailResult(int status, String msg) {
         CommonResult result = new CommonResult();
-        result.setSuccess(false);
-        result.setCode(code);
-        result.setMsg(msg);
+//        result.setSuccess(false);
+        result.setStatus(status);
+        result.setMessage(msg);
+        result.setTimesStamp(now);
         return result;
     }
     // 결과 모델에 api 요청 성공 데이터를 세팅해주는 메소드
     private void setSuccessResult(CommonResult result) {
-        result.setSuccess(true);
-        result.setCode(CommonResponse.SUCCESS.getCode());
-        result.setMsg(CommonResponse.SUCCESS.getMsg());
+//        result.setSuccess(true);
+        result.setStatus(200);
+        result.setMessage("성공하였습니다.");
+        result.setTimesStamp(now);
     }
+
 }

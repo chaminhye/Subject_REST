@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/auth/")
@@ -39,7 +40,7 @@ public class AuthController {
     @PostMapping ("/signup")
     public CommonResult signup(@RequestBody AuthReqVO req){
         int result = authService.saveUser(req);
-        return result > 0 ? responseService.getSuccessResult() : responseService.getFailResult(500, "error");
+        return result > 0 ? responseService.getSuccessResult() : responseService.getFailResult(500, "Internal Server Error");
     }
 
     @ApiOperation(value="로그인", notes="이메일로 회원 로그인")

@@ -1,10 +1,11 @@
 package com.example.idus.api.dto;
 
+import com.example.idus.config.common.Paging;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-public class OrderDTO {
+public class OrderDTO{
     private String orderIdx;                // 주문번호
     private String orderCustomerIdx;        // 주문번호
     private String productName;             // 주문명

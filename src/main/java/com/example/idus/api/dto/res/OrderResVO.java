@@ -9,7 +9,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class UserResVO extends Paging {
+public class OrderResVO extends Paging {
     private List<OrderDTO> orderList;
 
     public void UserResVO(List<OrderDTO> list){
