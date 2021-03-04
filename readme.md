@@ -4,9 +4,11 @@ spring boot를 이용한 api 프로젝트
 
 
 
-### 🔷 spec
+### 🔷 build tools
 
 **spring boot : 2.4.3**
+
+**gradle**
 
 **spring-security**
 
